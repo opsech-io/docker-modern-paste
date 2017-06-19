@@ -1,0 +1,47 @@
+---
+version: '2'
+
+services:
+
+  modern-paste:
+    build: .
+    image: modern-paste
+    volumes:
+      - paste_attachments:/var/www/modern-paste-attachments:rw,z
+    env_file:
+      - ./config/config.env
+    networks:
+      - backend
+    depends_on:
+      - postgres
+
+  nginx:
+    image: nginx:alpine
+    volumes:
+      - ./config/nginx/:/etc/nginx/conf.d:ro,Z
+    ports:
+      - 80:80
+    networks:
+      - outside
+      - backend
+    depends_on:
+      - modern-paste
+
+  postgres:
+    image: postgres:alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data:rw,Z
+    env_file:
+      - ./config/config.env
+    networks:
+      - backend
+
+networks:
+  backend:
+    # comment this out if you use an external db or override
+    internal: true
+  outside:
+
+volumes:
+  paste_attachments:
+  postgres_data:

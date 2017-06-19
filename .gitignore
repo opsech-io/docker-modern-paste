@@ -1,0 +1,4 @@
+config.env
+*.swp
+*.tmp
+*.pyc
