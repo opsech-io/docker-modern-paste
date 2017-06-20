@@ -51,7 +51,7 @@ for env_var in $POSSIBLE_VARS; do
     key="$( eval echo \"\$"${env_var}"\" )"
     if [ "$key" ]; then
         tempfile=$(mktemp)
-        awk -v name="$env_var" -v value="$key" \
+        awk -v name="$env_var" -v value="${key//\\/\\\\}" \
             '$0 ~ "^"name" = " { $0=name" = "value }1' \
              "${CONFIG_PATH}" > "$tempfile" \
             && cat "$tempfile" > "${CONFIG_PATH}" \
