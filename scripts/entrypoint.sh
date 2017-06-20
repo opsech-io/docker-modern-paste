@@ -46,6 +46,11 @@ fi
 [ ! "$DATABASE_PASSWORD" ] && export DATABASE_PASSWORD="'postgres'"
 [ ! "$DATABASE_NAME" ] && export DATABASE_NAME="'postgres'"
 
+if [ "$DATABASE_TYPE" ]; then
+    sed -i 's|\( = '\''\)[a-z]*\(://\)|\1'"$DATABASE_TYPE"'\2|' \
+        "${CONFIG_PATH%/*}/flask_config.py"
+fi
+
 # Rewrite config.py variables
 for env_var in $POSSIBLE_VARS; do
     key="$( eval echo \"\$"${env_var}"\" )"
