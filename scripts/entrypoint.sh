@@ -64,13 +64,14 @@ done
 
 # The until loop is to give postgres a chance if it's the first run and the db
 # is still in the process of being created
-tries=0
+tries=5
 seconds=5
+count=0
 until python build/build_database.py --create; do
-    [ $((tries)) -gt 5 ] \
+    [ $((count)) -gt $tries ] \
         && { echo "Too many retries, re-check database"; exit 1; } >&2
     echo "Failed to connect to DB, trying again in $seconds second(s)"
-    tries=$((tries+1))
+    count=$((count+1))
     sleep "$seconds"
 done
 
