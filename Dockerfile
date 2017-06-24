@@ -42,6 +42,7 @@ RUN apk --no-cache add -t .build-deps \
     && export PYTHONPATH="app:" \
     && gem install sass \
     && npm install -g uglify-js \
+    && sed -i '/mysql-python/d' requirements.txt \
     && pip install -r requirements.txt \
     && mkdir -p app/static/build/js \
     && mkdir -p app/static/build/css \
