@@ -29,7 +29,7 @@ COPY config/modern-paste/config.py app/config.py
 
 # Build step
 RUN apk --no-cache add -t .build-deps \
-        ruby ruby-rdoc ruby-irb nodejs-npm python2-dev \
+        ruby libffi-dev ruby-dev ruby-rdoc ruby-irb nodejs-npm python2-dev \
         py2-pip mysql-dev git build-base openjdk8-jre \
         shadow bash \
     #
